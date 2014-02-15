@@ -1,0 +1,565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Litecoin Blockchain</title>
+    <style>
+        body {
+            background-color: #fff;
+            color: #000;
+            font-family: "Consolas", "Lucida Grande", "Trebuchet MS";
+            font-size: 14px;
+        }
+
+        #wrapper {
+            width: 970px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 16px;
+            /*border: 1px solid red;*/
+            min-height: 100%;
+        }
+
+        a:link {
+            text-decoration: none;
+            color: #0051AD;
+        }
+
+        a:visited {
+            text-decoration: none;
+            color: #0051AD;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: #F04800;
+        }
+
+        h1 {
+            display: inline;
+            font-weight: normal;
+            font-size: 14px;
+        }
+
+        #header {
+            height: 66px;
+            font-size: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #header-nav {
+            float: right;
+        }
+
+        #header-menu {
+            float: left;
+            margin-top: 8px;
+            clear: left;
+        }
+
+        .logo {
+            float: left;
+        }
+
+        #footer {
+            text-align: center;
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        tr {
+            border-collapse: collapse;
+        }
+
+        .nav {
+            float: right;
+            width: 590px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 2px #aaa;
+            font-size: 12px;
+        }
+
+        .nav td {
+            height: 8px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+
+        .info {
+            float: left;
+            width: 370px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 2px #aaa;
+        }
+
+        .info td {
+            padding: 4px 4px 4px 4px;
+        }
+
+        .info .caption {
+            font-size: 24px;
+        }
+
+        .random {
+            color: #D1FFD4;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            /*    .tx-sm div { float: left; }*/
+
+        .tx-list {
+            margin-top: 32px;
+        }
+
+        .tx-separator {
+            padding: 0px 10px 0px 10px;
+            float: left;
+        }
+
+        .row-grey {
+            background-color: #f3f3f3;
+        }
+
+        .tx-row {
+            padding: 4px;
+            height: 16px;
+        }
+
+        .total-row {
+            padding: 4px;
+            height: 24px;
+        }
+
+        .tx-sm {
+            width: 970px;
+            border: 1px solid #aaa;
+            padding: 2px 2px 4px 2px;
+            box-shadow: 2px 2px 2px #aaa;
+            margin-bottom: 6px;
+        }
+
+        .tx-sm-caption {
+            width: 962px;
+            background-color: #ddd; /*E3EEFC;*/
+            font-size: 12px;
+            padding: 4px 4px 6px 4px;
+        }
+
+        .tx-sm-total {
+            width: 160px;
+            text-align: right;
+            border-top: 1px solid #aaa;
+            float: right;
+            margin-top: -4px;
+        }
+
+        .tx-addr-info {
+            width: 290px; /*border: 1px solid blue;*/
+            float: left;
+        }
+
+        .tx-vin-vout {
+            width: 160px; /*border: 1px solid green;*/
+            text-align: right;
+            float: left;
+        }
+
+        .tx-vout {
+            width: 160px; /*border: 1px solid green;*/
+            text-align: right;
+            float: left;
+        }
+
+        .tx-coinbase {
+            width: 450px;
+            padding: 4px;
+        }
+
+        .tx-time {
+            float: right;
+        }
+
+        .vins {
+            float: left;
+        }
+
+        .vouts {
+            float: left;
+        }
+
+        .tx-scripts {
+            width: 780px;
+            margin-left: 80px;
+            border: 1px solid #aaa;
+            box-shadow: 2px 2px 2px #aaa;
+            padding: 8px;
+        }
+
+        .script-seq {
+            min-width: 42px;
+            text-align: right;
+            padding-right: 12px;
+        }
+
+        .addr-nav {
+            text-align: left;
+        }
+
+        .addr-caption {
+            font-size: 24px;
+        }
+
+        .addr-table {
+            width: 840px;
+            margin-left: 60px;
+            border: 1px solid #aaa;
+            box-shadow: 2px 2px 2px #aaa;
+            padding: 1px;
+        }
+
+        .addr-tx-caption {
+            width: 839px;
+            text-align: center;
+            background-color: #ddd;
+            padding-top: 4px;
+            padding-bottom: 8px;
+        }
+
+        .addr-tx {
+            width: 120px;
+            float: left;
+            text-align: center;
+        }
+
+        .addr-block {
+            width: 80px;
+            float: left;
+            text-align: center;
+        }
+
+        .addr-tx-ts {
+            width: 200px;
+            float: left;
+            text-align: center;
+        }
+
+        .addr-tx-amount {
+            width: 140px;
+            text-align: right;
+            float: left;
+        }
+
+        .addr-tx-debit {
+            width: 140px;
+            height: 16px;
+            text-align: right;
+            float: left;
+        }
+
+        .addr-tx-credit {
+            width: 140px;
+            height: 16px;
+            text-align: right;
+            float: left;
+        }
+
+        .addr-tx-balance {
+            width: 140px;
+            text-align: right;
+            float: left;
+        }
+
+        .addr-total {
+            border-top: 1px solid #aaa;
+            margin-top: 4px;
+            padding-top: 4px;
+        }
+
+        .pos {
+            color: #03700C;
+        }
+
+        .neg {
+            color: #9C0800;
+        }
+
+            /*.txtype-in { background-color: #D0FFCF; }
+            .txtype-out { background-color: #FFCFCF; }*/
+
+        .ais {
+            width: 500px;
+            margin-left: 240px;
+            border: 1px solid #aaa;
+            box-shadow: 2px 2px 2px #aaa;
+            padding: 2px;
+        }
+
+        .ais-row {
+            width: 480px;
+            padding: 10px;
+            height: 16px;
+        }
+
+        .ais div {
+            float: left;
+        }
+
+        .ais-address {
+            width: 300px;
+        }
+
+        .ais-balance {
+            width: 140px;
+            margin-left: 32px;
+            text-align: right;
+        }
+
+        .blocklist {
+            width: 860px;
+            margin-left: 50px;
+            border: 1px solid #aaa;
+            box-shadow: 2px 2px 2px #aaa;
+            padding: 2px;
+        }
+
+        .blocklist-caption {
+            width: 860px;
+            text-align: center;
+            background-color: #ddd;
+            padding-top: 4px;
+            padding-bottom: 8px;
+        }
+
+        .blocklist-row {
+            width: 840px;
+            padding: 10px;
+            height: 16px;
+        }
+
+        .blocklist div {
+            float: left;
+        }
+
+        .blocklist .bhash {
+            width: 180px;
+        }
+
+        .blocklist .btotal {
+            width: 160px;
+            margin-left: 8px;
+            margin-right: 8px;
+            text-align: right;
+        }
+
+        .blocklist .binfo {
+            width: 100px;
+            margin-left: 8px;
+            margin-right: 8px;
+            text-align: right;
+        }
+
+        .blocklist .btime {
+            width: 160px;
+            margin-left: 8px;
+            margin-right: 8px;
+            text-align: right;
+        }
+
+        .blocklist .bsize {
+            width: 100px;
+            margin-left: 8px;
+            margin-right: 8px;
+            text-align: right;
+        }
+
+        .blocklist .bheight {
+            width: 60px;
+            margin-left: 8px;
+            margin-right: 8px;
+            text-align: right;
+        }
+
+        .blocklist .btx {
+            width: 100px;
+            margin-left: 8px;
+            margin-right: 8px;
+            text-align: right;
+        }
+
+        .p2p {
+            width: 528px;
+            margin-left: 220px;
+            border: 1px solid #aaa;
+            box-shadow: 2px 2px 2px #aaa;
+            padding: 2px;
+        }
+
+        .p2p-row {
+            width: 510px;
+            padding: 10px;
+            height: 16px;
+        }
+
+        .p2p-caption {
+            width: 510px;
+            text-align: center;
+            background-color: #ddd;
+            padding-top: 4px;
+            padding-bottom: 8px;
+        }
+
+        .p2p div {
+            float: left;
+        }
+
+        .p2p-ip {
+            width: 200px;
+            text-align: left;
+        }
+
+        .p2p-local-rate {
+            margin-left: 10px;
+            width: 200px;
+        }
+
+        .p2p-fee {
+            margin-left: 10px;
+            width: 90px;
+            text-align: center;
+        }
+
+        .p2p-uptime {
+            margin-left: 10px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .p2p-efficiency {
+            width: 200px;
+        }
+
+        .search {
+            float: left;
+            margin: 32px;
+            margin-left: 220px;
+            border: 1px solid #aaa;
+            box-shadow: 2px 2px 2px #aaa;
+            padding: 16px;
+        }
+
+        .search div {
+            float: left;
+        }
+
+        #search {
+            width: 400px;
+            height: 22px;
+            margin-top: 2px;
+            margin-right: 4px;
+            font-family: Consolas;
+            font-size: 12px;
+        }
+
+        .search-info {
+            font-size: 12px;
+            width: 100%;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .error {
+            background-color: #FFE3EE;
+            width: 300px;
+            margin: 64px;
+            border: 1px solid #aaa;
+            box-shadow: 2px 2px 2px #aaa;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .chart {
+            width: 800px;
+            height: 400px;
+            margin-left: 90px;
+            margin-top: 32px;
+        }
+
+        .ohlc {
+            width: 800px;
+            height: 500px;
+            margin-left: 90px;
+            margin-top: 32px;
+        }
+
+        #search-submit {
+            font-family: Consolas;
+            font-size: 12px;
+            background-color: rgb(46, 105, 148);
+            background-image: -webkit-linear-gradient(top, rgb(95, 151, 191), rgb(63, 123, 176));
+            border: 1px solid rgb(46, 105, 148);
+            border-bottom: 1px solid rgb(46, 105, 148);
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px;
+            border-radius: 3px;
+            -webkit-box-shadow: inset 0 1px 0 0 rgb(46, 105, 148);
+            -moz-box-shadow: inset 0 1px 0 0 #96ca6d;
+            -ms-box-shadow: inset 0 1px 0 0 #96ca6d;
+            -o-box-shadow: inset 0 1px 0 0 #96ca6d;
+            box-shadow: inset 0 1px 0 0 rgb(146, 205, 248);
+            color: #fff;
+            line-height: 1;
+            padding: 7px 0 8px 0;
+            text-align: center;
+            text-shadow: 0 -1px 0 #4c9021;
+            width: 100px;
+        }
+
+        #search-submit:hover {
+            background-color: #76b347;
+            background-image: -webkit-linear-gradient(top, rgb(125, 174, 209), rgb(82, 142, 191));
+            background-image: -moz-linear-gradient(top, #76b347, #5e9e2e);
+            background-image: -ms-linear-gradient(top, #76b347, #5e9e2e);
+            background-image: -o-linear-gradient(top, #76b347, #5e9e2e);
+            background-image: linear-gradient(top, #76b347, #5e9e2e);
+            -webkit-box-shadow: inset 0 1px 0 0 #8dbf67;
+            -moz-box-shadow: inset 0 1px 0 0 #8dbf67;
+            -ms-box-shadow: inset 0 1px 0 0 #8dbf67;
+            -o-box-shadow: inset 0 1px 0 0 #8dbf67;
+            box-shadow: inset 0 1px 0 0 rgb(146, 205, 248);
+            cursor: pointer;
+        }
+
+        #search-submit:active {
+            border: 1px solid rgb(46, 105, 148);
+            border-bottom: 1px solid rgb(46, 105, 148);
+            -webkit-box-shadow: inset 0 0 8px 4px rgb(46, 105, 148), 0 1px 0 0 #eeeeee;
+            -moz-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+            -ms-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+            -o-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
+            box-shadow: inset 0 0 8px 4px rgb(48, 108, 150), 0 1px 0 0 #eeeeee;
+        }
+
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <div id="content">
+        <div id="header">
+            <div class="logo">
+                <a href="/"><img src="/images/litecoin-logo.png"></a>
+            </div>
+            <div id="header-menu">
+                <a href="/">Home</a>
+                - <a href="http://github.com/sumory" target="_blank">Author</a>
+            </div>
+        </div>
